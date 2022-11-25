@@ -4,6 +4,8 @@ Computer Networks 22/23
 Bachelor's Degree in Computer Science and Engineering, grp. 89  
 Universidad Carlos III de Madrid
 
+<!-- TODO: Lightning setup -->
+
 ## Part I: Simple network interconnection
 ### Start the VM and load the scenario.
 ```bash
@@ -219,15 +221,15 @@ Configuration:
 - Network R3-R4: `10.0.98.188/30`.
 
 - R1 eth0.1: `10.0.98.1/25`
-- R1 eth0.2: `10.0.98.182/25`
-- R1 eth0.3: `10.0.98.177/25`
+- R1 eth0.2: `10.0.98.182/30`
+- R1 eth0.3: `10.0.98.177/30`
 - R2 eth0.1: `10.0.98.129/27`
-- R2 eth0.2: `10.0.98.178/27`
-- R2 eth0.3: `10.0.98.185/27`
+- R2 eth0.2: `10.0.98.178/30`
+- R2 eth0.3: `10.0.98.185/30`
 - R3 eth0.1: `10.0.98.161/28`
-- R3 eth0.2: `10.0.98.189/28`
-- R3 eth0.3: `10.0.98.181/28`
-- R3 eth0.4: `10.0.98.186/28`
+- R3 eth0.2: `10.0.98.189/30`
+- R3 eth0.3: `10.0.98.181/30`
+- R3 eth0.4: `10.0.98.186/30`
 - R4 eth0.1: `10.0.98.0/24`
 - R4 eth0.2: `10.0.98.190/30`
 
