@@ -178,7 +178,7 @@ student@PCA:~$ sudo ip route add 10.0.4.0/24 via 10.0.3.2
 ```
 
 ### Perform the corresponding settings in PCB
-Route stuff to the outside (`default`/`0.0.0.0/0`), and Network A (`10.0.3.0/24`) through RB eth 0.0 (`10.0.4.2`).
+Route stuff to the outside (`default`/`0.0.0.0/0`), and Network A (`10.0.3.0/24`) through RB eth0.0 (`10.0.4.2`).
 ```bash
 student@PCB:~$ sudo ip route add default via 10.0.4.2
 student@PCB:~$ sudo ip route add 10.0.3.0/24 via 10.0.4.2
@@ -279,7 +279,7 @@ Ry# ping <ip Rx ethi>
 ### Configure the required static routes in the routers (routing tables)
 Remember to put all routes, and that direct connections don't need to be configured.  
 
-The routing tables are:
+The routing tables are:  
 R1:
 - 10.0.98.128/27 10.0.98.178 O2
 - 10.0.98.128/27 10.0.98.181
@@ -291,18 +291,20 @@ R1:
 - 10.0.98.188/30 10.0.98.181
 - 10.0.0.0/24 10.0.98.181 internet
 - 10.0.0.0/24 10.0.98.178
+<!-- TODO: Convert to table -->
 
 R2:
 - 10.0.98.0/25 10.0.98.177 O1
 - 10.0.98.0/25 10.0.98.186
 - 10.0.98.160/28 10.0.98.186 S
 - 10.0.98.160/28 10.0.98.177
-- 10.0.98.180/30 10.0.98.186 R1-R3
+- 10.0.98.180/30 10.0.98.177 R1-R3
 - 10.0.98.180/30 10.0.98.186
 - 10.0.98.188/30 10.0.98.186 R3-R4
 - 10.0.98.188/30 10.0.98.177
 - 10.0.0.0/24 10.0.98.186 internet
 - 10.0.0.0/24 10.0.98.177
+<!-- TODO: Convert to table -->
 
 R3:
 - 10.0.98.0/25 10.0.98.182 O1
@@ -312,10 +314,12 @@ R3:
 - 10.0.98.176/30 10.0.98.182 R1-R2
 - 10.0.98.176/30 10.0.98.185
 - 10.0.0.0/24 10.0.98.190 internet
+<!-- TODO: Convert to table -->
 
 
 R4:
 - 10.0.98.0/24 10.0.98.189
+<!-- TODO: Convert to table -->
 
 (for each router Rx, each entry in the routing table)
 ```
@@ -338,6 +342,16 @@ Rx(config)# no ip route <dest> <next hop>
 ```bash
 student@hstOfix:~$ sudo ip route add default via <ip Ry eth0.1>
 student@hstOfix:~$ sudo ip route add 10.0.98.0/24 via <ip Ry eth0.1>
+```
+
+You can check the configuration with:
+```
+student@hstOfix:~$ ip route
+```
+
+To delete a configured route:
+```
+student@hstOfix:~$ sudo ip route del <dest> <next hop>
 ```
 
 ### Check the network is connected
