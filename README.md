@@ -232,7 +232,7 @@ We'll use the `10.0.98.0/24` segment.
 - R3 eth0.2: `10.0.98.189/30`
 - R3 eth0.3: `10.0.98.181/30`
 - R3 eth0.4: `10.0.98.186/30`
-- R4 eth0.1: `10.0.98.0/24`
+- R4 eth0.1: `10.0.0.69/24`
 - R4 eth0.2: `10.0.98.190/30`
 
 - hstOfi1 eth1: `10.0.98.2/25`
@@ -341,7 +341,6 @@ Rx(config)# no ip route <dest> <next hop>
 (for each host hstOfix connected to router Ry)
 ```bash
 student@hstOfix:~$ sudo ip route add default via <ip Ry eth0.1>
-student@hstOfix:~$ sudo ip route add 10.0.98.0/24 via <ip Ry eth0.1>
 ```
 
 You can check the configuration with:
