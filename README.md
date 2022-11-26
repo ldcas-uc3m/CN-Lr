@@ -8,7 +8,7 @@ Universidad Carlos III de Madrid
 
 ## Part I: Simple network interconnection
 ### Start the VM and load the scenario.
-```bash
+```
 student@uc3m lightning start RSC/S16_escenario_1
 ```
 
@@ -57,7 +57,7 @@ RA# show interface eth0.0  # to check it was done correctly, inet shouldn't show
 ### Assign an IP address to the Ethernet interface of computer PCA that is tagged as eth1 and that is connected to Network A
 
 First we see the asigned IPs for PCA and PCB.
-```bash
+```
 student@PCA:~$ ip a
 ```
 
@@ -70,7 +70,7 @@ inet=192.100.101/24  # default PCA IP
 ```
 Remove the default IP.
 
-```bash
+```
 student@PCA:~$ sudo ip addr del 192.100.100.101/24 dev eth1
 ```
 
@@ -80,7 +80,7 @@ Do the same for PCB.
 ### Assign an IP address to the interface of router A that is connected to the Network A
 
 Add IP to PCA.
-```bash
+```
 student@PCA:~$ sudo ip addr add 10.0.3.1/24 dev eth1
 ```
 
@@ -95,8 +95,8 @@ RA(config)# exit
 
 Verify that the router and the host can reach each other using the ping command.
 
-Check that you can ping from PCA to RA.
-```bash
+Check that you can ping from `PCA` to `RA`.
+```
 student@PCA:~$ ping 10.0.3.2
 ```
 
@@ -133,7 +133,7 @@ RB# ping 10.0.0.1
 ### Assign an IP address to the interface of router B connected to Network B
 
 Add IP to PCB.
-```bash
+```
 student@PCB:~$ sudo ip addr add 10.0.4.1/24 dev eth1
 ```
 
@@ -149,7 +149,7 @@ RB(config)# exit
 Verify that the router and the host can reach each other using the ping command.
 
 Check that you can ping from PCA to RA.
-```bash
+```
 student@PCB:~$ ping 10.0.4.2
 ```
 
@@ -172,38 +172,38 @@ RB(config)# ip route 10.0.4.0/24 10.0.0.1
 ### Configure the routing tables in PCA so it can reach Network B.
 
 Route stuff to the outside (`default`/`0.0.0.0/0`), and Network B (`10.0.4.0/24`) through RA eth0.0 (`10.0.3.2`).
-```bash
+```
 student@PCA:~$ sudo ip route add default via 10.0.3.2
 student@PCA:~$ sudo ip route add 10.0.4.0/24 via 10.0.3.2
 ```
 
 ### Perform the corresponding settings in PCB
 Route stuff to the outside (`default`/`0.0.0.0/0`), and Network A (`10.0.3.0/24`) through RB eth0.0 (`10.0.4.2`).
-```bash
+```
 student@PCB:~$ sudo ip route add default via 10.0.4.2
 student@PCB:~$ sudo ip route add 10.0.3.0/24 via 10.0.4.2
 ```
 
 ### Use the `ping` and `traceroute` command from PCA to PCB.
 
-```bash
+```
 student@PCA:~$ ping 10.0.4.1
 student@PCB:~$ ping 10.0.3.1
 ```
-```bash
+```
 student@PCA:~$ traceroute -n 10.0.4.1
 student@PCB:~$ traceroute -n 10.0.3.1
 ```
 
 Close lightning with
-```bash
+```
 student@uc3m lightning stop
 ```
 
 ## Part II: Network configuration
 
 ### Start the VM and load the scenario.
-```bash
+```
 student@uc3m lightning start RYSCA/p_encam_a
 ```
 
@@ -255,7 +255,7 @@ Also remember to delete wlan0
 
 ### Assign IP addresses to the hosts
 (for each host hstOfix):
-```bash
+```
 student@hstOfix:~$ ip a  # show ip
 student@hstOfix:~$ sudo ip addr del <old_ip> dev eth1
 student@hstOfix:~$ sudo ip addr add <new_ip> dev eth1  # ip with prefix
@@ -264,7 +264,7 @@ student@hstOfix:~$ sudo ip addr add <new_ip> dev eth1  # ip with prefix
 ### Check that connectivity exists between PCs hstOfi1, hstOfi2 and the routers R1, R2
 
 Ping from hstOfix to Ry (for each host hstOfix, router Ry):
-```bash
+```
 student@hstOfix:~$ ping <ip Ry eth0.1>  # ip without prefix
 Ry ping <ip hstOfix>
 ```
@@ -324,8 +324,9 @@ R4:
 (for each router Rx, each entry in the routing table)
 ```
 Rx# configure terminal
-Rx(config)# ip route <dest> <next hop>  # dest w/ prefix, next hop without
+Rx(config)# ip route <dest> <next hop> <metric>  # dest w/ prefix, next hop without
 ```
+The metrics are used to set the priority of each route. By default, it's `1` (max priority), so set the secondary routes to `5` (you can leave the rest empty).
 
 You can check the configuration with:
 ```
@@ -339,7 +340,7 @@ Rx(config)# no ip route <dest> <next hop>
 
 ### Configure the required static routes in the hosts (routing tables)
 (for each host hstOfix connected to router Ry)
-```bash
+```
 student@hstOfix:~$ sudo ip route add default via <ip Ry eth0.1>
 ```
 
@@ -371,10 +372,23 @@ student@hstOfi2:~$ ping 10.0.0.69
 
 ### Force a link failure, use the interface configuration command shutdown to disable the interfaces on both the routers connected to the link
 
-Let's cut link between R1 and R2 and try to reach from hstOfi1 to hstOfi2
+Let's cut link between R1 and R2 and try to reach from `hstOfi1` to `hstOfi2`
 ```
 R1(config)# interface eth0.3
 R1(config-if)# shutdown
+```
+
+```
+R2(config)# interface eth0.2
+R2(config-if)# shutdown
+```
+
+To restore the link.
+```
+R1(config-if)# no shutdown
+```
+```
+R1(config-if)# no shutdown
 ```
 
 And traceroute:
