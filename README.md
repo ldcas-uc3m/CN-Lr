@@ -418,7 +418,7 @@ To restore the link.
 R1(config-if)# no shutdown
 ```
 ```
-R1(config-if)# no shutdown
+R2(config-if)# no shutdown
 ```
 
 And traceroute:
